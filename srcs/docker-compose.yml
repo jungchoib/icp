@@ -1,0 +1,64 @@
+services:
+  mariadb:
+    build: ./requirements/mariadb
+    image: mariadb
+    container_name: mariadb
+    pull_policy: never
+    env_file: .env
+    networks:
+      - inception
+    volumes:
+      - db-volume:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
+
+  wordpress:
+    build: ./requirements/wordpress
+    image: wordpress
+    container_name: wordpress
+    pull_policy: never
+    env_file: .env
+    networks:
+      - inception
+    volumes:
+      - wp-volume:/var/www
+    expose:
+      - "9000"
+    depends_on:
+      - mariadb
+    restart: always
+
+  nginx:
+    build: ./requirements/nginx
+    image: nginx
+    container_name: nginx
+    pull_policy: never
+    networks:
+      - inception
+    volumes:
+      - wp-volume:/var/www
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+      - mariadb
+    restart: always
+
+networks:
+  inception:
+    name: inception
+
+volumes:
+  db-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/hyun_e/Downloads/data/mysql
+  wp-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/hyun_e/Downloads/data/www
