@@ -1,0 +1,71 @@
+# docker-compose.yml: 여러 Docker 서비스를 정의하고 구성하는 파일입니다.
+
+services:
+  # MariaDB 서비스
+  mariadb:
+    build: ./requirements/mariadb  # 해당 디렉토리에서 Dockerfile을 빌드
+    image: mariadb  # 사용할 이미지 이름
+    container_name: mariadb  # 컨테이너 이름
+    pull_policy: never  # 이미지를 항상 로컬에서만 빌드하도록 설정
+    env_file: .env  # 환경 변수를 .env 파일에서 로드
+    networks:
+      - inception  # 'inception' 네트워크에 연결
+    volumes:
+      - db-volume:/var/lib/mysql  # 데이터베이스 파일을 저장할 볼륨
+    ports:
+      - "3306:3306"  # 호스트의 3306 포트를 컨테이너의 3306 포트에 매핑
+    restart: always  # 컨테이너가 크래시 시 항상 재시작
+
+  # WordPress 서비스
+  wordpress:
+    build: ./requirements/wordpress  # 해당 디렉토리에서 Dockerfile을 빌드
+    image: wordpress  # 사용할 이미지 이름
+    container_name: wordpress  # 컨테이너 이름
+    pull_policy: never  # 이미지를 항상 로컬에서만 빌드하도록 설정
+    env_file: .env  # 환경 변수를 .env 파일에서 로드
+    networks:
+      - inception  # 'inception' 네트워크에 연결
+    volumes:
+      - wp-volume:/var/www  # WordPress 파일을 저장할 볼륨
+    expose:
+      - "9000"  # WordPress가 사용하는 포트를 외부에 노출
+    depends_on:
+      - mariadb  # mariadb 서비스가 실행된 후에 실행
+    restart: always  # 컨테이너가 크래시 시 항상 재시작
+
+  # NGINX 서비스
+  nginx:
+    build: ./requirements/nginx  # 해당 디렉토리에서 Dockerfile을 빌드
+    image: nginx  # 사용할 이미지 이름
+    container_name: nginx  # 컨테이너 이름
+    pull_policy: never  # 이미지를 항상 로컬에서만 빌드하도록 설정
+    networks:
+      - inception  # 'inception' 네트워크에 연결
+    volumes:
+      - wp-volume:/var/www  # WordPress 파일을 NGINX에서 사용
+    ports:
+      - "443:443"  # 호스트의 443 포트를 컨테이너의 443 포트에 매핑
+    depends_on:
+      - wordpress  # wordpress 서비스가 실행된 후에 실행
+      - mariadb  # mariadb 서비스가 실행된 후에 실행
+    restart: always  # 컨테이너가 크래시 시 항상 재시작
+
+# 네트워크 설정
+networks:
+  inception:
+    name: inception  # 'inception'이라는 이름의 네트워크 생성
+
+# 볼륨 설정
+volumes:
+  db-volume:
+    driver: local  # 로컬 드라이버 사용
+    driver_opts:
+      type: none  # 바인드 마운트를 사용
+      o: bind  # 바인드 마운트 옵션
+      device: /Users/hyun_e/Downloads/data/mysql  # 데이터베이스 파일이 저장될 호스트 경로
+  wp-volume:
+    driver: local  # 로컬 드라이버 사용
+    driver_opts:
+      type: none  # 바인드 마운트를 사용
+      o: bind  # 바인드 마운트 옵션
+      device: /Users/hyun_e/Downloads/data/www  # WordPress 파일이 저장될 호스트 경로
