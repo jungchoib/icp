@@ -135,10 +135,10 @@ volumes:
     driver_opts:
       type: none  # 바인드 마운트를 사용
       o: bind  # 바인드 마운트 옵션
-      device: /home/seed/data/mysql  # 데이터베이스 파일이 저장될 호스트 경로
+      device: /home/seed/Downloads/data/mysql  # 데이터베이스 파일이 저장될 호스트 경로
   wp-volume:
     driver: local  # 로컬 드라이버 사용
     driver_opts:
       type: none  # 바인드 마운트를 사용
       o: bind  # 바인드 마운트 옵션
-      device: /home/seed/data/www  # WordPress 파일이 저장될 호스트 경로
+      device: /home/seed/Downloads/data/www  # WordPress 파일이 저장될 호스트 경로

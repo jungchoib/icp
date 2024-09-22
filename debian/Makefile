@@ -47,8 +47,8 @@ CYAN = \033[0;36m
 
 # 기본 타겟
 all:
-	@mkdir -p /home/seed/data/www  # 웹 데이터 디렉토리 생성
-	@mkdir -p /home/seed/data/mysql  # MySQL 데이터 디렉토리 생성
+	@mkdir -p /home/seed/Downloads/data/www  # 웹 데이터 디렉토리 생성
+	@mkdir -p /home/seed/Downloads/data/mysql  # MySQL 데이터 디렉토리 생성
 	docker-compose -f ./srcs/docker-compose.yml up --detach --build  # Docker Compose로 서비스 시작
 	@echo "\n\n*** $(CYAN)Server is running on http://seed.42.fr$(DEFAULT) ***\n\n"  # 서버 실행 메시지
 
