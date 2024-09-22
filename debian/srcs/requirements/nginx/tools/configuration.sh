@@ -7,8 +7,8 @@ if [ ! -d "/etc/nginx/ssl" ]; then
     
     # OpenSSL을 사용하여 새로운 SSL 인증서와 키 생성
     openssl req -newkey rsa:4096 -days 365 -nodes -x509 \
-            -subj "/C=KR/ST=Seoul/L=Seoul/O=42Seoul/OU=Student/CN=junghych" \
-            -keyout /etc/nginx/ssl/junghych.key -out /etc/nginx/ssl/junghych.crt
+            -subj "/C=KR/ST=Seoul/L=Seoul/O=42Seoul/OU=Student/CN=seed" \
+            -keyout /etc/nginx/ssl/seed.key -out /etc/nginx/ssl/seed.crt
     
     # Nginx의 런타임 디렉토리 생성 (없을 경우)
     mkdir -p /run/nginx
