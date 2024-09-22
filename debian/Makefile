@@ -47,17 +47,17 @@ CYAN = \033[0;36m
 
 # 기본 타겟
 all:
-	@mkdir -p /home/subinlee/data/www  # 웹 데이터 디렉토리 생성
-	@mkdir -p /home/subinlee/data/mysql  # MySQL 데이터 디렉토리 생성
+	@mkdir -p /home/seed/data/www  # 웹 데이터 디렉토리 생성
+	@mkdir -p /home/seed/data/mysql  # MySQL 데이터 디렉토리 생성
 	docker-compose -f ./srcs/docker-compose.yml up --detach --build  # Docker Compose로 서비스 시작
-	@echo "\n\n*** $(CYAN)Server is running on http://subinlee.42.fr$(DEFAULT) ***\n\n"  # 서버 실행 메시지
+	@echo "\n\n*** $(CYAN)Server is running on http://seed.42.fr$(DEFAULT) ***\n\n"  # 서버 실행 메시지
 
 # 서버 재시작 타겟
 re:
 	docker-compose -f ./srcs/docker-compose.yml down  # 현재 실행 중인 서비스 중지
 	@echo "\n\n*** $(CYAN)Server is restarting...$(DEFAULT) ***\n\n"  # 재시작 메시지
 	docker-compose -f ./srcs/docker-compose.yml up --detach --build  # Docker Compose로 서비스 재시작
-	@echo "\n\n*** $(CYAN)Server is running on http://subinlee.42.fr$(DEFAULT) ***\n\n"  # 서버 실행 메시지
+	@echo "\n\n*** $(CYAN)Server is running on http://seed.42.fr$(DEFAULT) ***\n\n"  # 서버 실행 메시지
 
 # 서버 정지 타겟
 clean:
@@ -72,7 +72,7 @@ fclean:
 	@echo "\n\n*** $(CYAN)Server is stopped$(DEFAULT) ***\n\n"  # 서버 중지 메시지
 	docker system prune --all --force --volumes  # 모든 Docker 리소스 및 볼륨 정리
 	@echo "\n\n*** $(CYAN)Images and volumes are removed$(DEFAULT) ***\n\n"  # 이미지 및 볼륨 제거 메시지
-	@sudo rm -rf /home/subinlee/data  # 데이터 디렉토리 삭제
+	@sudo rm -rf /home/seed/data  # 데이터 디렉토리 삭제
 
 # Docker 정보 출력 타겟
 info:
