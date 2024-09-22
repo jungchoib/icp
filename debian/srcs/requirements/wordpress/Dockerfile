@@ -38,7 +38,7 @@ COPY ./tools/configuration.sh .
 
 # PHP-FPM 설정 수정
 RUN sed -i "s|listen = 127.0.0.1:9000|listen = 9000|g" /etc/php/7.4/fpm/pool.d/www.conf && \
-    sed -i "s|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|g" /etc/php/7.4/php.ini
+    sed -i "s|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|g" /etc/php/7.4/fpm/php.ini
 
 # WP-CLI 설치
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
