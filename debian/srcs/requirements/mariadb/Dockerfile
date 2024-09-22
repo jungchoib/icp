@@ -24,13 +24,10 @@ FROM debian:bullseye
 RUN apt-get update && apt-get upgrade -y && apt-get install -y mariadb-server mariadb-client dumb-init \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 설정 파일 및 스크립트 복사
 COPY ./conf/my.cnf /etc/mysql/my.cnf
-# 초기화 스크립트를 컨테이너에 복사
 COPY ./tools/configuration.sh /usr/local/bin/configuration.sh
-
-# 실행 권한 부여
 RUN chmod +x /usr/local/bin/configuration.sh
+
 # MariaDB의 기본 포트인 3306을 외부에 노출
 EXPOSE 3306
 

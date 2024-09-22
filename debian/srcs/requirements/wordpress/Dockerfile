@@ -35,7 +35,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 
 # 로컬의 configuration.sh 스크립트를 컨테이너의 현재 작업 디렉토리로 복사
 COPY ./tools/configuration.sh .
-
+# #https://developer.wordpress.org/apis/wp-config-php/
 # PHP-FPM 설정 수정
 RUN sed -i "s|listen = 127.0.0.1:9000|listen = 9000|g" /etc/php/7.4/fpm/pool.d/www.conf && \
     sed -i "s|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|g" /etc/php/7.4/fpm/php.ini
