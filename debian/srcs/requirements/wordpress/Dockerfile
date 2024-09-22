@@ -40,13 +40,16 @@ COPY ./tools/configuration.sh .
 RUN sed -i "s|listen = 127.0.0.1:9000|listen = 9000|g" /etc/php/7.4/fpm/pool.d/www.conf && \
     sed -i "s|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|g" /etc/php/7.4/fpm/php.ini
 
+# PHP 7.4 바이너리에 대한 심볼릭 링크 생성
+RUN [ -e /usr/bin/php ] && rm /usr/bin/php; ln -s /usr/bin/php7.4 /usr/bin/php
+
 # WP-CLI 설치
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp
 
-# PHP 7.4 바이너리에 대한 심볼릭 링크 생성
-RUN ln -s /usr/bin/php7.4 /usr/bin/php
+# # PHP 7.4 바이너리에 대한 심볼릭 링크 생성
+# RUN ln -s /usr/bin/php7.4 /usr/bin/php
 
 # 컨테이너 시작 시 dumb-init을 사용하여 프로세스 관리
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
