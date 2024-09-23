@@ -1,14 +1,14 @@
 all:
-	@mkdir -p /home/junghych/data/www
-	@mkdir -p /home/junghych/data/mysql
+	@mkdir -p /home/seed/data/www
+	@mkdir -p /home/seed/data/mysql
 	docker-compose -f ./srcs/docker-compose.yml up --detach --build
-	@echo "\n\n*** Server is running on http://junghych.42.fr ***\n\n"
+	@echo "\n\n*** Server is running on http://seed.42.fr ***\n\n"
 
 re:
 	docker-compose -f ./srcs/docker-compose.yml down -v
 	@echo "\n\n*** Server is restarting... ***\n\n"
 	docker-compose -f ./srcs/docker-compose.yml up --detach --build
-	@echo "\n\n*** Server is running on http://junghych.42.fr ***\n\n"
+	@echo "\n\n*** Server is running on http://seed.42.fr ***\n\n"
 
 clean:
 	docker-compose -f ./srcs/docker-compose.yml down
@@ -22,7 +22,7 @@ fclean:
 	# docker system prune --all --force --volumes
 	docker system prune --af
 	@echo "\n\n*** Images and volumes are removed ***\n\n"
-	@sudo rm -rf /home/junghych/data
+	@sudo rm -rf /home/seed/data
 
 info:
 		@echo "[ IMAGES ]"

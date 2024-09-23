@@ -55,10 +55,10 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/hyun_e/Downloads/data/mysql
+      device: /home/seed/data/mysql
   wp-volume:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/hyun_e/Downloads/data/www
+      device: /home/seed/data/www
